@@ -1,0 +1,18 @@
+{
+  "name": "full",
+  "version": "1.0.0",
+  "description": "fullstack app with angular and express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "angular"
+  ],
+  "author": "Alexander Nikulsheev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
