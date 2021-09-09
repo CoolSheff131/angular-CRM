@@ -9,8 +9,9 @@ module.exports.login = async function(req,res) {
 
     if(candidate){
         //Проверить пароль
-        const passwordResult = bcrypt.compareSync(req.body.password, candidate.password)
-        if(passwordResult){
+        //const passwordResult = bcrypt.compareSync(req.body.password, candidate.password)
+        
+        if(req.body.password === candidate.password){
             //Генерация токена, пароли совпали
 
             const token = jwt.sign({
