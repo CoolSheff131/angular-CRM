@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { MaterialService } from 'src/app/shared/classes/material.service';
@@ -19,7 +19,8 @@ export class CategoriesFormComponent implements OnInit {
   isNew = true
   category!: Category
   constructor(private route: ActivatedRoute,
-              private categoriesService: CategoryService) { }
+              private categoriesService: CategoryService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -54,8 +55,22 @@ export class CategoriesFormComponent implements OnInit {
       )
   }
 
+  
+
   triggerClick(){
     this.inputRef.nativeElement.click()
+  }
+
+  deleteCategory(){
+    const decision = window.confirm(`Удалить ${this.category.name}?`)
+    if(decision){
+      this.categoriesService.delete(this.category._id)
+      .subscribe(
+        response => MaterialService.toast(response.message),
+        error => MaterialService.toast(error.error.message),
+        ()=> this.router.navigate(['/categories'])
+      )
+    }
   }
 
   onFileUpload(event: any){

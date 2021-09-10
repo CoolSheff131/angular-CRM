@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Category } from "../interfaces";
+import { Category, Message } from "../interfaces";
 
 @Injectable({
     providedIn: 'root'
@@ -34,4 +34,9 @@ export class CategoryService{
         fd.append('name',name)
         return this.http.patch<Category>(`/api/category/${id}`,fd)
     }   
+
+    delete(id: string):Observable<Message>{
+        return this.http.delete<Message>(`/api/category/${id}`)
+
+    }
 } 
