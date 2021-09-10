@@ -2,8 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { MaterialService } from 'src/app/shared/classes/material.service';
+import { Category } from 'src/app/shared/interfaces';
 import {CategoryService} from '../../shared/services/categories.service'
 @Component({
   selector: 'app-categories-form',
@@ -16,6 +17,7 @@ export class CategoriesFormComponent implements OnInit {
   image!: File
   imagePreview:any 
   isNew = true
+  category!: Category
   constructor(private route: ActivatedRoute,
               private categoriesService: CategoryService) { }
 
@@ -39,9 +41,11 @@ export class CategoriesFormComponent implements OnInit {
       )
       .subscribe(category => {
         if(category){
+          this.category = category
           this.form.patchValue({
             name: category.name
           })
+          this.imagePreview = category.imageSrc
           MaterialService.updateTextInputs()
         }
         this.form.enable()
@@ -68,6 +72,28 @@ export class CategoriesFormComponent implements OnInit {
   }
 
   onSubmit(){
+    let obs$
+    this.form.disable()
 
+    if(this.isNew){
+      //create
+      obs$ = this.categoriesService.create(this.form.value.name,this.image)
+    }else{
+      //update
+      obs$ = this.categoriesService.update(this.category._id ,this.form.value.name, this.image)
+    }
+
+    obs$.subscribe(
+      category=>{
+        this.category = category
+        MaterialService.toast('Сохранено')
+        this.form.enable
+      },
+      error=>{
+        MaterialService.toast(error.error.message)
+        this.form.enable()
+      }
+
+    )
   }
 }
