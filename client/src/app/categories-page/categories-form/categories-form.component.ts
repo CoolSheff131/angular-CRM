@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of } from 'rxjs';
@@ -11,8 +11,10 @@ import {CategoryService} from '../../shared/services/categories.service'
   styleUrls: ['./categories-form.component.css']
 })
 export class CategoriesFormComponent implements OnInit {
-
+  @ViewChild('input') inputRef!: ElementRef
   form!: FormGroup
+  image!: File
+  imagePreview:any 
   isNew = true
   constructor(private route: ActivatedRoute,
               private categoriesService: CategoryService) { }
@@ -47,6 +49,24 @@ export class CategoriesFormComponent implements OnInit {
       error => MaterialService.toast(error.error.message)
       )
   }
+
+  triggerClick(){
+    this.inputRef.nativeElement.click()
+  }
+
+  onFileUpload(event: any){
+    const file = event.target.files[0]
+    this.image = file
+
+    const reader = new FileReader()
+
+    reader.onload = ()=>{
+      this.imagePreview = reader.result
+    }
+
+    reader.readAsDataURL(file)
+  }
+
   onSubmit(){
 
   }
