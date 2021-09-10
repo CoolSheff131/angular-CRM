@@ -16,7 +16,7 @@
         <div class="collection" *ngIf="categories.length !== 0"; else empty>
             <a
                 *ngFor="let category of categories"
-                [routerLink]="['/categories', category._id]"
+                [routerLink]="['/categories']"
                 class="collection-item"
             >
             {{category.name}}

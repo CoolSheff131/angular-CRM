@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AnalyticsPageComponent } from "./analytics-page/analytics-page.component";
+import { CategoriesFormComponent } from "./categories-page/categories-form/categories-form.component";
 import { CategoriesPageComponent } from "./categories-page/categories-page.component";
 import { HistoryPageComponent } from "./history-page/history-page.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
@@ -25,7 +26,9 @@ const routes: Routes = [
             {path: 'analytics', component: AnalyticsPageComponent},
             {path: 'history', component: HistoryPageComponent},
             {path: 'order', component: OrderPageComponent},
-            {path: 'categories', component: CategoriesPageComponent}
+            {path: 'categories', component: CategoriesPageComponent},
+            {path: 'categories/new', component: CategoriesFormComponent},
+            {path: 'categories/:id', component: CategoriesFormComponent}
         ]
     }
 ]
