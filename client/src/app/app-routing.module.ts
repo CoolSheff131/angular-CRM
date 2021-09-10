@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { LoginPageComponent } from "./login-page/login-page.component";
+import { OverviewPageComponent } from "./overview-page/overview-page.component";
 import { RegisterPageComponent } from "./register-page/register-page.component";
 import { AuthGuard } from "./shared/classes/auth.guard";
 import { AuthLayoutComponent } from "./shared/layouts/auth-layout/auth-layout.component";
@@ -16,7 +17,7 @@ const routes: Routes = [
     },
     {
         path: '', component: SiteLayoutComponent, canActivate:[AuthGuard], children: [
-            
+            {path: 'overview', component: OverviewPageComponent}
         ]
     }
 ]
